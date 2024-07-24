@@ -61,16 +61,16 @@ management:
       exposure:
         include: health,refresh
 
-#eureka:
-#  client:
-#    registerWithEureka: true
-#    healthcheck:
-#      enabled: true
-#    serviceUrl:
-#      defaultZone: ${EUREKA_SERVER}
-#      #defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    lease-renewal-interval-in-seconds: 30
+eureka:
+  client:
+    registerWithEureka: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      #defaultZone: ${EUREKA_SERVER}
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30
 
 logging:
   level:
