@@ -55,6 +55,13 @@ spring:
           - Path=/api/auth/**
           filters:
           - RewritePath=/api/auth(?<segment>), /api/authentication-rest/auth$\{segment}
+        - id: soap_proxy_prosumer_route
+          uri: lb://soap-proxy-prosumer-rest
+          #uri: http://localhost:8087
+          predicates:
+          - Path=/api/proxy/**
+          filters:
+          - RewritePath=/api/proxy(?<segment>), /api/soap-proxy$\{segment}
 management:
   endpoints:
     web:
