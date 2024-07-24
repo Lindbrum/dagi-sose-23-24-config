@@ -12,9 +12,9 @@ spring:
           # uri: http://localhost:8081
           uri: lb://event-management-soap
           predicates:
-          - Path=/api/event/**
+          - Path=/api/soap/**
           filters:
-          - RewritePath=/api/event(?<segment>/?), /event-management-soap/event-management-soap$\{segment}
+          - RewritePath=/api/soap(?<segment>/?), /event-management-soap/event-management-soap$\{segment}
         
         - id: feeedback_prosumer_route
           uri: lb://feedback-prosumer-rest
