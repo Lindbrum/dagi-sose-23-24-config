@@ -1,0 +1,90 @@
+# Port of the gateway
+server:
+  port: 8080
+
+# Gateway configuration
+spring:
+  cloud:
+    gateway:
+      routes:
+
+        - id: event_management_provider_route
+          # uri: http://localhost:8081
+          uri: lb://event-management-soap
+          predicates:
+          - Path=/api/soap/**
+          filters:
+          - RewritePath=/api/soap(?<segment>/?), /event-management-soap/event-management-soap$\{segment}
+        
+        - id: feeedback_prosumer_route
+          uri: lb://feedback-prosumer-rest
+          #uri: http://localhost:8082
+          predicates:
+          - Path=/api/reports/feed/**
+          filters:
+          - RewritePath=/api/reports/feed(?<segment>), /api/feedback-prosumer$\{segment}
+
+        - id: event_merch_prosumer_route
+          # uri: http://localhost:8083
+          uri: lb://event-merch-prosumer-rest
+          predicates:
+          - Path=/api/event-merch/**
+          filters:
+          - RewritePath=/api/event-merch(?<segment>/?), /api/event-merch-prosumer-rest$\{segment}
+
+        - id: sales_analysis_prosumer_route
+          #uri: http://localhost:8084
+          uri: lb://sales-analysis-prosumer-rest
+          predicates:
+          - Path=/api/reports/sales/**
+          filters:
+          - RewritePath=/api/reports/sales(?<segment>/?), /api/sales-analysis-prosumer-rest$\{segment}
+
+        - id: merchandise_provider_route
+          #uri: http://localhost:8085
+          uri: lb://merchandising-rest
+          predicates:
+          - Path=/api/merch/**
+          filters:
+          - RewritePath=/api/merch(?<segment>/?), /api/merchandise-rest$\{segment}
+
+        - id: auth_provider_route
+          uri: lb://authentication-rest
+          #uri: http://localhost:8086
+          predicates:
+          - Path=/api/auth/**
+          filters:
+          - RewritePath=/api/auth(?<segment>), /api/authentication-rest/auth$\{segment}
+        - id: soap_proxy_prosumer_route
+          uri: lb://soap-proxy-prosumer-rest
+          #uri: http://localhost:8087
+          predicates:
+          - Path=/api/proxy/**
+          filters:
+          - RewritePath=/api/proxy(?<segment>), /api/soap-proxy$\{segment}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,refresh
+
+eureka:
+  client:
+    registerWithEureka: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      #defaultZone: ${EUREKA_SERVER}
+      defaultZone: http://localhost:8761/eureka/
+      #defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30
+
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
