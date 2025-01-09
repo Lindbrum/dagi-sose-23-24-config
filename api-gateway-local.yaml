@@ -8,13 +8,13 @@ spring:
     gateway:
       routes:
 
-        - id: event_management_provider_route
-          uri: http://localhost:8081
-          #uri: lb://event-management-soap
-          predicates:
-          - Path=/api/soap/**
-          filters:
-          - RewritePath=/api/soap(?<segment>/?), /event-management-soap/event-management-soap$\{segment}
+#        - id: event_management_provider_route
+#          uri: http://localhost:8081
+#          #uri: lb://event-management-soap
+#          predicates:
+#          - Path=/api/soap/**
+#          filters:
+#          - RewritePath=/api/soap(?<segment>/?), /event-management-soap/event-management-soap$\{segment}
         
         - id: feeedback_prosumer_route
           #uri: lb://feedback-prosumer-rest
