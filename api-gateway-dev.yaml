@@ -61,7 +61,6 @@ eureka:
       enabled: true
     serviceUrl:
       defaultZone: ${EUREKA_SERVER}
-      #defaultZone: http://discovery-server:8761/eureka/
   instance:
     lease-renewal-interval-in-seconds: 30
 
